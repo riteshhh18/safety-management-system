@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Report Page with Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url("https://images.squarespace-cdn.com/content/v1/5a129114b078699b9cce9b3d/1619770562523-LTLA98IKNRHJ8I3UGII0/545A7645.jpg?format=2500w");
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .contain {
+            width: 300px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .contain h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: aqua;
+        }
+
+        .contain input[type="text"],
+        .contain input[type="date"] {
+            width: calc(100% - 40px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-bottom: 2px solid white;
+            background-color: transparent;
+            color: white;
+            outline: none;
+        }
+
+        .contain button {
+            width: calc(100% - 40px);
+            padding: 10px;
+            background-color: aqua;
+            color: black;
+            border: none;
+            font-size: 18px;
+            border-radius: 25px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .contain button:hover {
+            background-color: black;
+            color: aqua;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        p span {
+            color: aqua;
+            cursor: pointer;
+        }
+
+        #trainingReports {
+            width: 80%;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            color: white;
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid white;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: aqua;
+            color: black;
+        }
+
+        td {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="contain">
+        <h1>Safety Trainees Report</h1>
+        <form id="reportForm">
+            <input type="text" name="training_id" placeholder="Enter Training ID">
+            <input type="text" name="training_type" placeholder="Enter Training Type">
+            <input type="text" name="department" placeholder="Enter Department">
+            <input type="text" name="vendor_name" placeholder="Enter Vendor Name">
+            <input type="date" name="training_date_from" placeholder="Training Date From" required>
+            <input type="date" name="training_date_to" placeholder="Training Date To" required>
+            <button type="button" onclick="getDetails()">Get Details</button>
+        </form>
+        <p>Not a member? <span><a href="register.html">Sign Up</a></span></p>
+    </div>
+    <div id="trainingReports"></div>
+
+    <script>
+        function getDetails() {
+            const form = document.getElementById('reportForm');
+            const trainingDateFrom = form.training_date_from.value;
+            const trainingDateTo = form.training_date_to.value;
+
+            if (!trainingDateFrom || !trainingDateTo) {
+                alert("Please enter both 'Training Date FROM' and 'Training Date TO'");
+                return;
+            }
+
+            fetch('process.php', {
+                method: 'POST',
+                body: new FormData(form)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.length === 0) {
+                    document.getElementById('trainingReports').innerHTML = "<p>No records found.</p>";
+                    return;
+                }
+
+                let table = `<table>
+                                <tr>
+                                    <th>Training ID</th>
+                                    <th>Training Type</th>
+                                    <th>Department</th>
+                                    <th>Vendor Name</th>
+                                    <th>Training Date From</th>
+                                    <th>Training Date To</th>
+                                </tr>`;
+                
+                data.forEach(record => {
+                    table += `<tr>
+                                <td>${record.training_id}</td>
+                                <td>${record.training_type}</td>
+                                <td>${record.department}</td>
+                                <td>${record.vendor_name}</td>
+                                <td>${record.training_date_from}</td>
+                                <td>${record.training_date_to}</td>
+                              </tr>`;
+                });
+                
+                table += `</table>`;
+                document.getElementById('trainingReports').innerHTML = table;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

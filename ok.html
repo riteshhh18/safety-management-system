@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    }
+
+    .container {
+      text-align: center;
+      animation: pulse 2s infinite alternate;
+    }
+
+    #display {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      margin: 0 5px;
+      cursor: pointer;
+      background-color: #fff;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #f0f0f0;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="display">00:00:00</div>
+    <button id="startStop" onclick="startStop()">Start</button>
+    <button onclick="reset()">Reset</button>
+  </div>
+  <script>
+    let timer; // Timer variable
+    let isRunning = false;
+    let seconds = 0;
+    let minutes = 0;
+    let hours = 0;
+
+    function startStop() {
+      if (isRunning) {
+        clearInterval(timer);
+        document.getElementById("startStop").innerText = "Start";
+        isRunning = false;
+      } else {
+        timer = setInterval(updateDisplay, 1000);
+        document.getElementById("startStop").innerText = "Stop";
+        isRunning = true;
+      }
+    }
+
+    function updateDisplay() {
+      seconds++;
+      if (seconds == 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes == 60) {
+          minutes = 0;
+          hours++;
+        }
+      }
+
+      const display = document.getElementById("display");
+      display.innerText = formatTime(hours) + ":" + formatTime(minutes) + ":" + formatTime(seconds);
+    }
+
+    function formatTime(time) {
+      return time < 10 ? "0" + time : time;
+    }
+
+    function reset() {
+      clearInterval(timer);
+      isRunning = false;
+      seconds = 0;
+      minutes = 0;
+      hours = 0;
+      document.getElementById("display").innerText = "00:00:00";
+      document.getElementById("startStop").innerText = "Start"; 
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page with Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: url("https://images.deccanherald.com/deccanherald%2Fimport%2Fsites%2Fdh%2Ffiles%2Farticleimages%2F2021%2F03%2F26%2F2019-09-05t144550z285446737rc13ec5d76e0rtrmadp3jsw-steel-bankruptcyjpg-966874-1616765261.jpg?auto=format%2Ccompress&fmt=webp&fit=max&w=1200");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .contain {
+            width: 300px;
+            height: 400px;
+            background-color: black;
+            margin: 7% auto;
+            text-align: center;
+            color: white;
+        }
+
+        .contain h1 {
+            font-size: 36px;
+            color: aqua;
+        } 
+
+        .contain .text {
+            position: relative;
+            top: 7%;
+        }
+
+        .inp1, .inp2 {
+            border: none;
+            background-color: black;
+            border-bottom: 2px solid white;
+            width: 250px;
+            font-size: 20px;
+            margin-top: 40px;
+            outline: none;
+            color: white;
+        }
+
+        .text button {
+            width: 250px;
+            height: 44px;
+            background-color: aqua;
+            color: black;
+            border: none;
+            font-size: 22px;
+            border-radius: 25px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            border: 3px solid aqua;
+            color: white;
+            font-size: 24px;
+            background-color: black;
+        }
+
+        p {
+            margin-top: 30px;
+            font-size: 20px;
+        }
+
+        p span {
+            color: aqua;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="contain">
+        <div class="text">
+            <h1>Login</h1>
+            <form action="login_process.php" method="post"> <!-- Specify the action and method -->
+                <input class="inp1" type="text" name="username" placeholder="Enter UserID">
+                <input class="inp1" type="password" name="password" placeholder="Enter password">
+                <p>Forgot Password ?</p>
+                <button type="submit">Login</button>
+            </form>
+            <p>Do not have account? <span><a href="register.html">Register</span></a></p>
+            <a href="login.html"></a>
+        </div>
+    </div>
+</body>
+</html>
